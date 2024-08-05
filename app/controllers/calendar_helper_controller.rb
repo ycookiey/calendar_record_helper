@@ -29,8 +29,13 @@ class CalendarHelperController < ApplicationController
 
     flash[:notice] = 'イベントがGoogleカレンダーに追加されました'
     redirect_to calendar_helper_new_path
-  rescue Google::Apis::AuthorizationError
+  rescue Google::Apis::AuthorizationError => e
+    Rails.logger.error "Authorization Error: #{e.message}"
     redirect_to '/auth/google_oauth2'
+  rescue => e
+    Rails.logger.error "Error: #{e.message}"
+    flash[:error] = 'エラーが発生しました。もう一度お試しください。'
+    redirect_to calendar_helper_new_path
   end
 
   private
@@ -42,6 +47,7 @@ class CalendarHelperController < ApplicationController
       token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
       access_token: current_user.oauth_token,
       refresh_token: current_user.refresh_token,
+      grant_type: 'refresh_token',
       expires_at: current_user.oauth_expires_at.to_i
     )
   end
