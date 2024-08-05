@@ -26,6 +26,8 @@ gem 'sqlite3', '~> 1.4'
 
 gem 'importmap-rails'
 
+gem 'activerecord', '~> 7.0.0'
+
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
 end

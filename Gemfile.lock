@@ -315,6 +315,7 @@ PLATFORMS
   x64-mingw-ucrt
 
 DEPENDENCIES
+  activerecord (~> 7.0.0)
   bootsnap
   capybara
   debug
