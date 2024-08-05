@@ -20,6 +20,8 @@ gem 'omniauth', '~> 2.0'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 
+gem 'dotenv-rails'
+
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
 end
