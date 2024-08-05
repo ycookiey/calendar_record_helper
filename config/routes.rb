@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
+  root 'calendar_helper#new'
+  post 'calendar_helper/create'
   get 'calendar_helper/new'
-  get 'calendar_helper/create'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
 end
