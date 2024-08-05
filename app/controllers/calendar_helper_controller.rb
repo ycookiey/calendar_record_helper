@@ -41,14 +41,34 @@ class CalendarHelperController < ApplicationController
   private
 
   def client
-    Signet::OAuth2::Client.new(
+    @client ||= Signet::OAuth2::Client.new(
       client_id: ENV['GOOGLE_CLIENT_ID'],
       client_secret: ENV['GOOGLE_CLIENT_SECRET'],
-      token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
-      access_token: current_user.oauth_token,
-      refresh_token: current_user.refresh_token,
-      grant_type: 'refresh_token',
-      expires_at: current_user.oauth_expires_at.to_i
+      token_credential_uri: 'https://oauth2.googleapis.com/token',
+      redirect_uri: callback_url,
+      grant_type: 'authorization_code'
     )
+    if current_user.oauth_expires_at < Time.now
+      @client.update!(
+        grant_type: 'refresh_token',
+        refresh_token: current_user.refresh_token
+      )
+      refresh_token
+    else
+      @client.update!(access_token: current_user.oauth_token)
+    end
+    @client
+  end
+
+  def refresh_token
+    response = @client.fetch_access_token!
+    current_user.update(
+      oauth_token: response['access_token'],
+      oauth_expires_at: Time.now + response['expires_in'].to_i.seconds
+    )
+  end
+
+  def callback_url
+    "#{request.base_url}/auth/google_oauth2/callback"
   end
 end

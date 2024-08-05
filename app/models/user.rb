@@ -9,4 +9,8 @@ class User < ApplicationRecord
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
     end
   end
+
+  def token_valid?
+    oauth_expires_at && oauth_expires_at > Time.now
+  end
 end
