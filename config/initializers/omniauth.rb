@@ -5,3 +5,5 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     access_type: 'offline'
   }
 end
+
+OmniAuth.config.allowed_request_methods = [:post, :get]

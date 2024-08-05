@@ -24,7 +24,7 @@
   <% end %>
 <% else %>
   <p>Googleカレンダーに記録を追加するには、ログインしてください。</p>
-  <%= link_to 'Googleでログイン', '/auth/google_oauth2' %>
+  <%= link_to 'Googleでログイン', auth_redirect_path(:google_oauth2), method: :post %>
 <% end %>
 
 <% if flash[:notice] %>
