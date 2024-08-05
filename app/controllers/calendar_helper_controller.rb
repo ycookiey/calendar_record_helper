@@ -16,11 +16,11 @@ class CalendarHelperController < ApplicationController
     event = Google::Apis::CalendarV3::Event.new(
       summary: params[:title],
       start: {
-        date_time: params[:start_time].to_datetime.rfc3339,
+        date_time: params[:start_time].in_time_zone('Asia/Tokyo').iso8601,
         time_zone: 'Asia/Tokyo'
       },
       end: {
-        date_time: params[:end_time].to_datetime.rfc3339,
+        date_time: params[:end_time].in_time_zone('Asia/Tokyo').iso8601,
         time_zone: 'Asia/Tokyo'
       }
     )
